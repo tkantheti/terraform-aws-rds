@@ -2,6 +2,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    # Replace this with your bucket name!
+    bucket         = "terraform-state-nacha-ras"
+    key            = "global/s3/terraform_ras_dev.tfstate"
+    region         = "us-east-1"
+  }
+}
 ##############################################################
 # Data sources to get VPC, subnets and security group details
 ##############################################################
@@ -24,7 +32,7 @@ data "aws_security_group" "default" {
 module "db" {
   source = "../../"
 
-  identifier = "demodb-postgres"
+  identifier = var.db_identifier
 
   engine            = "postgres"
   engine_version    = "11.5"
@@ -33,14 +41,14 @@ module "db" {
   storage_encrypted = false
 
   # kms_key_id        = "arm:aws:kms:<region>:<account id>:key/<kms key id>"
-  name = "demodb"
+  name = var.dbname
 
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
-  username = "demouser"
+  username = var.dbuser
 
-  password = "YourPwdShouldBeLongAndSecure!"
+  password = var.dbuserpassword
   port     = "5432"
 
   vpc_security_group_ids = [data.aws_security_group.default.id]
@@ -68,8 +76,10 @@ module "db" {
   major_engine_version = "11"
 
   # Snapshot name upon DB deletion
-  final_snapshot_identifier = "demodb"
+  final_snapshot_identifier = var.dbname
 
   # Database Deletion Protection
   deletion_protection = false
 }
+
+
