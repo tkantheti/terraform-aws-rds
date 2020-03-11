@@ -1,7 +1,7 @@
 provider "aws" {
   region = "us-east-1"
 }
-
+/*
 terraform {
   backend "s3" {
     # Replace this with your bucket name!
@@ -9,7 +9,7 @@ terraform {
     key            = "global/s3/terraform_ras_dev.tfstate"
     region         = "us-east-1"
   }
-}
+}*/
 ##############################################################
 # Data sources to get VPC, subnets and security group details
 ##############################################################
