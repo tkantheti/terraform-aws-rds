@@ -1,6 +1,7 @@
 
 variable "vpc_id"{
   description = "VPC ID "
+  default="vpc-02ca5054f172f8a2e"
 }
 
 variable "db_identifier"{
