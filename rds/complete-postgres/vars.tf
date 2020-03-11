@@ -1,3 +1,8 @@
+
+variable "vpc_id"{
+  description = "VPC ID "
+}
+
 variable "db_identifier"{
   description = "Database name"
   default     = "ras-postgres"

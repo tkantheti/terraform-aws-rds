@@ -13,16 +13,18 @@ terraform {
 ##############################################################
 # Data sources to get VPC, subnets and security group details
 ##############################################################
-data "aws_vpc" "default" {
-  default = true
+data "aws_vpc" "selected" {
+#  default = true
+   id=var.vpc_id #"vpc-02ca5054f172f8a2e"
 }
 
+
 data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.selected.id
 }
 
 data "aws_security_group" "default" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.selected.id
   name   = "default"
 }
 
